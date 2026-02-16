@@ -1,73 +1,98 @@
-// customize.js (simple: click crystal -> preview big image)
+// tarot.js — Full stable version (modal booking demo)
 
-const previewImg = document.getElementById("previewImg");
-const previewName = document.getElementById("previewName");
-const toast = document.getElementById("finalToast");
+document.addEventListener("DOMContentLoaded", () => {
+  const bookBtn = document.getElementById("bookBtn");
+  const toast = document.getElementById("pageToast");
 
-function showToast(msg) {
-  if (!toast) return;
-  toast.textContent = msg;
-  window.clearTimeout(showToast._t);
-  showToast._t = window.setTimeout(() => (toast.textContent = ""), 1800);
-}
+  const modal = document.getElementById("modal");
+  const backdrop = document.getElementById("modalClose");
+  const xBtn = document.getElementById("xBtn");
 
-function setActiveChip(btn) {
-  document.querySelectorAll(".crystal-chip").forEach((b) => b.classList.remove("active"));
-  btn.classList.add("active");
-}
+  const form = document.getElementById("bookingForm");
+  const successBox = document.getElementById("successBox");
+  const doneBtn = document.getElementById("doneBtn");
 
-function updatePreview(imgSrc, name) {
-  if (previewImg) {
-    previewImg.src = imgSrc;
-    previewImg.alt = `Preview: ${name}`;
+  const phone = document.getElementById("phone");
+  const email = document.getElementById("email");
+  const ptime = document.getElementById("ptime");
+
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => (toast.textContent = ""), 1800);
   }
-  if (previewName) {
-    previewName.textContent = name;
+
+  function openModal() {
+    if (!modal) return;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+
+    // focus for usability
+    setTimeout(() => phone?.focus(), 0);
   }
-}
 
-document.querySelectorAll(".crystal-chip").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const img = btn.dataset.img;
-    const name = btn.dataset.name || btn.querySelector(".chip-name")?.textContent || "Crystal";
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
 
-    if (!img) return;
+    // reset UI state
+    if (successBox) successBox.style.display = "none";
+    form?.reset();
+  }
 
-    setActiveChip(btn);
-    updatePreview(img, name);
+  // Safety: if modal not found, at least show toast
+  if (!modal) {
+    console.error("Modal element (#modal) not found.");
+  }
+
+  // Open
+  bookBtn?.addEventListener("click", () => {
+    openModal();
   });
+
+  // Close (backdrop + X + Done + ESC)
+  backdrop?.addEventListener("click", closeModal);
+  xBtn?.addEventListener("click", closeModal);
+  doneBtn?.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+
+  // Submit (demo)
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // simple validation
+    const ph = phone?.value?.trim() || "";
+    const em = email?.value?.trim() || "";
+    const tm = ptime?.value?.trim() || "";
+
+    if (!ph || !em || !tm) {
+      showToast("Please fill in all fields.");
+      return;
+    }
+
+    // show success panel
+    if (successBox) successBox.style.display = "block";
+
+    // optionally store demo booking (localStorage)
+    try {
+      const payload = {
+        phone: ph,
+        email: em,
+        time: tm,
+        createdAt: new Date().toISOString()
+      };
+      localStorage.setItem("krystory_last_booking_v1", JSON.stringify(payload));
+    } catch {
+      // ignore
+    }
+
+    showToast("Booking submitted (demo).");
+  });
+
+  console.log("tarot.js loaded ✅");
 });
-
-// Reset -> back to first crystal
-document.getElementById("resetBtn")?.addEventListener("click", () => {
-  const first = document.querySelector(".crystal-chip");
-  if (!first) return;
-
-  const img = first.dataset.img;
-  const name = first.dataset.name || first.querySelector(".chip-name")?.textContent || "Crystal";
-
-  setActiveChip(first);
-  updatePreview(img, name);
-  showToast("Reset done.");
-});
-
-// Finalize -> just a tiny toast (no other interaction)
-document.getElementById("finalizeBtn")?.addEventListener("click", () => {
-  const active = document.querySelector(".crystal-chip.active") || document.querySelector(".crystal-chip");
-  const name =
-    active?.dataset.name || active?.querySelector(".chip-name")?.textContent || "Crystal";
-
-  showToast(`Saved (demo): ${name}`);
-});
-
-// On load: auto-select first
-(() => {
-  const first = document.querySelector(".crystal-chip");
-  if (!first) return;
-
-  const img = first.dataset.img;
-  const name = first.dataset.name || first.querySelector(".chip-name")?.textContent || "Crystal";
-
-  setActiveChip(first);
-  updatePreview(img, name);
-})();

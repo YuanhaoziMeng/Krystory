@@ -859,3 +859,32 @@ h1{
 .finalize{
   padding: 12px 18px;
 }
+
+
+
+.modal{
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 999;
+}
+.modal.open{ display:block; }
+
+.modal-backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+}
+
+.modal-panel{
+  position: relative;
+  width: min(560px, 92vw);
+  margin: 8vh auto 0;
+  border-radius: 18px;
+  background: rgba(255,255,255,.94);
+  border: 1px solid rgba(43,38,36,.14);
+  box-shadow: 0 30px 80px rgba(0,0,0,.18);
+  padding: 14px;
+}
+
+.success{ display:none; margin-top: 12px; }
