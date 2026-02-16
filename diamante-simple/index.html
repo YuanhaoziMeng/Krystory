@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krystory | Crystal Jewelry</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <div class="brand">
+          <img src="assets/background.png" class="brand-logo" alt="Krystory logo" />
+          <span class="brand-name">Krystory</span>
+        </div>
+
+        <nav class="links">
+          <a href="./index.html#home">Home</a>
+          <a href="./index.html#about">About</a>
+          <a href="./crystals.html">Crystals</a>
+          <a href="./blog.html">Blog</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="icon-btn" aria-label="Cart">🛍️</button>
+          <button class="icon-btn" aria-label="Menu">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="home" class="hero">
+      <div class="container hero-grid">
+        <section class="hero-copy">
+          <h1>Personalized Crystal Jewelry<br />Guided by AI & Energy Experts</h1>
+          <p class="lead">
+            Design custom crystal jewelry with gentle guidance to match your emotional and energetic needs.
+          </p>
+
+          <div class="cta">
+            <button class="btn primary" id="startBtn">Start Your Journey</button>
+            <button class="btn ghost" id="watchBtn">▶ Watch Video</button>
+          </div>
+
+          <div class="note" id="toast" aria-live="polite"></div>
+        </section>
+
+        <section class="hero-panel">
+          <div class="panel-card">
+            <div class="panel-top">
+              <div class="bot">🤖</div>
+              <div class="panel-text">
+                <div class="panel-title">Hello!</div>
+                <div class="panel-desc" id="panelDesc">
+                  Choose an option below and I’ll suggest crystals for your intention.
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-actions">
+              <button class="pill" data-mode="love">Love</button>
+              <button class="pill" data-mode="calm">Calm</button>
+              <button class="pill" data-mode="focus">Focus</button>
+            </div>
+
+            <div class="panel-result" id="panelResult">
+              <div class="result-title">Suggested crystals</div>
+              <div class="chips" id="chips">
+                <span class="chip">Rose Quartz</span>
+                <span class="chip">Clear Quartz</span>
+                <span class="chip">Aquamarine</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <section class="section" id="about">
+      <div class="container">
+        <h2>Get Personalized Crystal Recommendations<br />Just for You</h2>
+        <p class="muted">
+          Keep it simple: pick one path and we’ll generate a gentle recommendation (demo version).
+        </p>
+
+        <div class="tabs">
+          <button class="tab active" data-tab="tarot">Tarot Reading</button>
+          <button class="tab" data-tab="astro">Astrology Chart</button>
+          <button class="tab" data-tab="emotion">Emotions & Energy</button>
+        </div>
+
+        <div class="cards" id="crystals">
+          <article class="card" data-pick="tarot">
+            <div class="thumb">🃏</div>
+            <h3>Tarot Reading</h3>
+            <p>Seek guidance through intuitive messages and crystal pairing.</p>
+            <a class="link-btn" href="./tarot.html">Try →</a>
+          </article>
+
+          <article class="card" data-pick="astro">
+            <div class="thumb">🪐</div>
+            <h3>Astrology Chart</h3>
+            <p>Match crystals to your energetic pattern and personal rhythm.</p>
+            <button class="link-btn" type="button">Try →</button>
+          </article>
+
+          <article class="card" data-pick="emotion">
+            <div class="thumb">💗</div>
+            <h3>Emotions & Energy</h3>
+            <p>Share how you feel and receive a calm, supportive suggestion.</p>
+            <button class="link-btn" type="button">Try →</button>
+          </article>
+        </div>
+
+        <div class="recommend" id="recommendBox">
+          <div class="recommend-title">Recommendation</div>
+          <div class="recommend-text" id="recommendText">
+            Pick a card above to see a simple crystal suggestion.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="muted">© Diamanté — simple demo site.</div>
+        <div class="muted">Made for coursework MVP.</div>
+      </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+      <div class="video-backdrop" id="videoClose"></div>
+      <div class="video-box">
+        <button class="video-x" id="videoX" aria-label="Close">✕</button>
+        <video id="heroVideo" controls>
+          <source src="assets/video.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+
+    <!-- Journey Modal -->
+    <div class="modal" id="journeyModal" aria-hidden="true">
+      <div class="modal-backdrop" id="journeyClose"></div>
+
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="journeyTitle">
+        <div class="modal-head">
+          <div>
+            <div class="modal-title" id="journeyTitle">Start Your Journey</div>
+            <div class="muted small">Choose a path to personalize your crystal jewelry.</div>
+          </div>
+          <button class="icon-btn" id="journeyX" aria-label="Close">✕</button>
+        </div>
+
+        <div class="journey-steps">
+          <div class="journey-step">
+            <div class="journey-left">
+              <div class="journey-badge">1</div>
+              <div class="journey-copy">
+                <div class="journey-name">Tarot Reading</div>
+                <div class="journey-desc">Get a gentle tarot message, then receive crystal pairing suggestions.</div>
+              </div>
+            </div>
+            <a class="btn primary journey-btn" href="./tarot.html">Start</a>
+          </div>
+
+          <div class="journey-step">
+            <div class="journey-left">
+              <div class="journey-badge">2</div>
+              <div class="journey-copy">
+                <div class="journey-name">Astrology Chart</div>
+                <div class="journey-desc">Match crystals to your energetic pattern and rhythm (demo).</div>
+              </div>
+            </div>
+            <button class="btn ghost journey-btn" type="button">Coming soon</button>
+          </div>
+
+          <div class="journey-step">
+            <div class="journey-left">
+              <div class="journey-badge">3</div>
+              <div class="journey-copy">
+                <div class="journey-name">Emotions &amp; Energy</div>
+                <div class="journey-desc">Share how you feel now, and get a supportive suggestion (demo).</div>
+              </div>
+            </div>
+            <button class="btn ghost journey-btn" type="button">Coming soon</button>
+          </div>
+        </div>
+
+        <div class="journey-footer">
+          <a class="btn ghost journey-skip" href="./customize.html">Skip to crystal selection</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

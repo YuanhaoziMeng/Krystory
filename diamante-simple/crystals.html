@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krystory | Crystals</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <div class="brand">
+          <img src="assets/background.png" class="brand-logo" alt="Krystory logo" />
+          <span class="brand-name">Krystory</span>
+        </div>
+
+        <nav class="links">
+          <a href="./index.html#home">Home</a>
+          <a href="./index.html#about">About</a>
+          <a href="./crystals.html">Crystals</a>
+          <a href="./index.html#blog">Blog</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="icon-btn" aria-label="Cart">🛍️</button>
+          <button class="icon-btn" aria-label="Menu">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div class="page-head">
+          <h2>Crystals Library</h2>
+          <p class="muted">Tap a crystal to read what it’s known for (demo explanations).</p>
+        </div>
+
+        <div class="crystal-grid">
+          <article class="crystal-card" data-key="rose">
+            <div class="crystal-img" style="background-image:url('assets/rose.png')"></div>
+            <div class="crystal-body">
+              <div class="crystal-name">Rose Quartz</div>
+              <div class="muted">Love, softness, self-acceptance.</div>
+            </div>
+          </article>
+
+          <article class="crystal-card" data-key="amethyst">
+            <div class="crystal-img" style="background-image:url('assets/Amethyst.png')"></div>
+            <div class="crystal-body">
+              <div class="crystal-name">Amethyst</div>
+              <div class="muted">Calm mind, sleep, gentle clarity.</div>
+            </div>
+          </article>
+
+          <article class="crystal-card" data-key="citrine">
+            <div class="crystal-img" style="background-image:url('assets/Amazonite.png')"></div>
+            <div class="crystal-body">
+              <div class="crystal-name">Citrine</div>
+              <div class="muted">Confidence, positivity, momentum.</div>
+            </div>
+          </article>
+
+          <article class="crystal-card" data-key="aquamarine">
+            <div class="crystal-img" style="background-image:url('assets/Black Obsidian.png')"></div>
+            <div class="crystal-body">
+              <div class="crystal-name">Aquamarine</div>
+              <div class="muted">Clear communication, soothing energy.</div>
+            </div>
+          </article>
+
+          <article class="crystal-card" data-key="clear">
+            <div class="crystal-img" style="background-image:url('assets/Selenite.png')"></div>
+            <div class="crystal-body">
+              <div class="crystal-name">Clear Quartz</div>
+              <div class="muted">Amplify intention, all-purpose support.</div>
+            </div>
+          </article>
+
+          <article class="crystal-card" data-key="obsidian">
+            <div class="crystal-img" style="background-image:url('assets/Clear Quartz.png')"></div>
+            <div class="crystal-body">
+              <div class="crystal-name">Obsidian</div>
+              <div class="muted">Protection, boundaries, grounding.</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <div class="modal" id="cModal" aria-hidden="true">
+      <div class="modal-backdrop" id="cClose"></div>
+
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+        <div class="modal-head">
+          <div>
+            <div class="modal-title" id="cTitle">Crystal</div>
+            <div class="muted small" id="cSub">Meaning & usage</div>
+          </div>
+          <button class="icon-btn" id="cX" aria-label="Close">✕</button>
+        </div>
+
+        <div class="crystal-modal">
+          <div class="crystal-modal-img" id="cImg"></div>
+          <div class="crystal-modal-text" id="cText"></div>
+        </div>
+
+        <div class="crystal-modal-footer">
+          <button class="btn ghost" id="cDone" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./crystals.js"></script>
+  </body>
+</html>

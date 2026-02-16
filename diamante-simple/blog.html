@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krystory | Blog</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./blog.css" />
+<!-- <script src="./blog.js" defer></script> -->
+
+  </head>
+
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="./index.html#home" aria-label="Krystory Home">
+          <img src="assets/background.png" class="brand-logo" alt="Krystory logo" />
+          <span class="brand-name">Krystory</span>
+        </a>
+
+        <nav class="links" aria-label="Primary navigation">
+          <a href="./index.html#home">Home</a>
+          <a href="./index.html#about">About</a>
+          <a href="./crystals.html">Crystals</a>
+          <a href="./blog.html" aria-current="page">Blog</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="icon-btn" type="button" aria-label="Cart">🛍️</button>
+          <button class="icon-btn" type="button" aria-label="Menu">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div class="page-head">
+          <h2>Community Blog</h2>
+          <p class="muted">Post your crystal stories, questions, and intentions. (Demo forum)</p>
+        </div>
+
+        <section class="blog-grid">
+          <!-- Left: Create post -->
+          <aside class="card soft blog-compose" aria-label="Create a post">
+            <h3 class="blog-card-title">Create a post</h3>
+
+            <form id="postForm" class="form">
+              <label class="field">
+                <span class="label">Title</span>
+                <input id="postTitle" type="text" maxlength="80" placeholder="e.g., My Love Intention Bracelet" required />
+              </label>
+
+              <label class="field">
+                <span class="label">Tag</span>
+                <select id="postTag">
+                  <option value="Story">Story</option>
+                  <option value="Question">Question</option>
+                  <option value="Tarot">Tarot</option>
+                  <option value="Astrology">Astrology</option>
+                  <option value="Energy">Energy</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="label">Content</span>
+                <textarea
+                  id="postBody"
+                  rows="6"
+                  maxlength="1200"
+                  placeholder="Share what you’re feeling, what you’re building, or what you’re curious about…"
+                  required
+                ></textarea>
+              </label>
+
+              <div class="row">
+                <button class="btn primary" type="submit">Post</button>
+                <button class="tiny-btn" id="clearAllBtn" type="button" title="Clear demo data">Clear</button>
+              </div>
+
+              <div class="note" id="toast" aria-live="polite"></div>
+            </form>
+
+            <div class="muted small blog-tip">
+              Demo notes: posts & comments are saved in your browser via localStorage.
+            </div>
+          </aside>
+
+          <!-- Right: List + thread -->
+          <section class="card soft blog-panel" aria-label="Posts">
+            <div class="blog-panel-head">
+              <div class="blog-panel-title">
+                <h3>Threads</h3>
+                <div class="muted small" id="postCount"></div>
+              </div>
+
+              <div class="blog-controls">
+                <input id="searchInput" class="search" type="search" placeholder="Search posts..." />
+                <select id="filterTag" class="filter">
+                  <option value="All">All tags</option>
+                  <option value="Story">Story</option>
+                  <option value="Question">Question</option>
+                  <option value="Tarot">Tarot</option>
+                  <option value="Astrology">Astrology</option>
+                  <option value="Energy">Energy</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="blog-split">
+              <!-- Post list -->
+              <div class="post-list" id="postList" aria-label="Post list"></div>
+
+              <!-- Thread view -->
+              <div class="thread" id="thread" aria-label="Thread view">
+                <div class="thread-empty muted">
+                  Select a post to view comments.
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <script src="./blog.js"></script>
+  </body>
+</html>
