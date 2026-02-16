@@ -19,12 +19,12 @@
           <a href="./index.html#home">Home</a>
           <a href="./index.html#about">About</a>
           <a href="./crystals.html">Crystals</a>
-          <a href="./index.html#blog">Blog</a>
+          <a href="./blog.html">Blog</a>
         </nav>
 
         <div class="nav-actions">
-          <button class="icon-btn" aria-label="Cart">🛍️</button>
-          <button class="icon-btn" aria-label="Menu">☰</button>
+          <button class="icon-btn" type="button" aria-label="Cart">🛍️</button>
+          <button class="icon-btn" type="button" aria-label="Menu">☰</button>
         </div>
       </div>
     </header>
@@ -33,11 +33,11 @@
       <div class="container">
         <div class="page-head">
           <h2>Crystals Library</h2>
-          <p class="muted">Tap a crystal to read what it’s known for (demo explanations).</p>
+          <p class="muted">Tap a crystal to go to checkout (demo).</p>
         </div>
 
-        <div class="crystal-grid">
-          <article class="crystal-card" data-key="rose">
+        <div class="crystal-grid" id="crystalGrid">
+          <article class="crystal-card" data-name="Rose Quartz" data-img="assets/rose.png" data-price="24.88">
             <div class="crystal-img" style="background-image:url('assets/rose.png')"></div>
             <div class="crystal-body">
               <div class="crystal-name">Rose Quartz</div>
@@ -45,7 +45,7 @@
             </div>
           </article>
 
-          <article class="crystal-card" data-key="amethyst">
+          <article class="crystal-card" data-name="Amethyst" data-img="assets/Amethyst.png" data-price="24.88">
             <div class="crystal-img" style="background-image:url('assets/Amethyst.png')"></div>
             <div class="crystal-body">
               <div class="crystal-name">Amethyst</div>
@@ -53,7 +53,7 @@
             </div>
           </article>
 
-          <article class="crystal-card" data-key="citrine">
+          <article class="crystal-card" data-name="Citrine" data-img="assets/Amazonite.png" data-price="24.88">
             <div class="crystal-img" style="background-image:url('assets/Amazonite.png')"></div>
             <div class="crystal-body">
               <div class="crystal-name">Citrine</div>
@@ -61,7 +61,7 @@
             </div>
           </article>
 
-          <article class="crystal-card" data-key="aquamarine">
+          <article class="crystal-card" data-name="Aquamarine" data-img="assets/Black Obsidian.png" data-price="24.88">
             <div class="crystal-img" style="background-image:url('assets/Black Obsidian.png')"></div>
             <div class="crystal-body">
               <div class="crystal-name">Aquamarine</div>
@@ -69,7 +69,7 @@
             </div>
           </article>
 
-          <article class="crystal-card" data-key="clear">
+          <article class="crystal-card" data-name="Clear Quartz" data-img="assets/Selenite.png" data-price="24.88">
             <div class="crystal-img" style="background-image:url('assets/Selenite.png')"></div>
             <div class="crystal-body">
               <div class="crystal-name">Clear Quartz</div>
@@ -77,7 +77,7 @@
             </div>
           </article>
 
-          <article class="crystal-card" data-key="obsidian">
+          <article class="crystal-card" data-name="Obsidian" data-img="assets/Clear Quartz.png" data-price="24.88">
             <div class="crystal-img" style="background-image:url('assets/Clear Quartz.png')"></div>
             <div class="crystal-body">
               <div class="crystal-name">Obsidian</div>
@@ -88,29 +88,41 @@
       </div>
     </main>
 
-    <div class="modal" id="cModal" aria-hidden="true">
-      <div class="modal-backdrop" id="cClose"></div>
+    <script>
+      // Click crystal card -> go checkout.html (with params)
+      document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.getElementById("crystalGrid");
+        if (!grid) return;
 
-      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="cTitle">
-        <div class="modal-head">
-          <div>
-            <div class="modal-title" id="cTitle">Crystal</div>
-            <div class="muted small" id="cSub">Meaning & usage</div>
-          </div>
-          <button class="icon-btn" id="cX" aria-label="Close">✕</button>
-        </div>
+        grid.addEventListener("click", (e) => {
+          const card = e.target.closest(".crystal-card");
+          if (!card) return;
 
-        <div class="crystal-modal">
-          <div class="crystal-modal-img" id="cImg"></div>
-          <div class="crystal-modal-text" id="cText"></div>
-        </div>
+          const name = card.dataset.name || card.querySelector(".crystal-name")?.textContent || "Crystal";
+          const img = card.dataset.img || "assets/rose.png";
+          const price = card.dataset.price || "24.88";
 
-        <div class="crystal-modal-footer">
-          <button class="btn ghost" id="cDone" type="button">Close</button>
-        </div>
-      </div>
-    </div>
+          const url =
+            "./checkout.html" +
+            `?name=${encodeURIComponent(name + " Bracelet")}` +
+            `&img=${encodeURIComponent(img)}` +
+            `&price=${encodeURIComponent(price)}`;
 
-    <script src="./crystals.js"></script>
+          window.location.href = url;
+        });
+
+        // keyboard: Enter/Space
+        document.querySelectorAll(".crystal-card").forEach((card) => {
+          card.tabIndex = 0;
+          card.setAttribute("role", "button");
+          card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              card.click();
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
