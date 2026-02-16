@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Krystory | Checkout</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .checkout-wrap{
+        display:grid;
+        grid-template-columns: 1.2fr .9fr;
+        gap: 18px;
+        align-items:start;
+      }
+      @media (max-width: 900px){
+        .checkout-wrap{ grid-template-columns: 1fr; }
+      }
+      .checkout-card{
+        border-radius: 18px;
+        border: 1px solid rgba(43,38,36,.12);
+        background: rgba(255,255,255,.55);
+        box-shadow: var(--shadow);
+        padding: 16px;
+      }
+      .field-row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .field{ display:flex; flex-direction:column; gap: 6px; margin-top: 10px; }
+      .field input, .field select{
+        padding: 12px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(43,38,36,.14);
+        background: rgba(255,255,255,.85);
+        outline:none;
+      }
+      .summary-top{ display:flex; gap: 12px; align-items:center; }
+      .summary-img{
+        width: 56px; height: 56px;
+        border-radius: 14px;
+        border: 1px solid rgba(43,38,36,.12);
+        background: rgba(255,255,255,.85);
+        object-fit: contain;
+      }
+      .summary-line{ display:flex; justify-content:space-between; margin-top: 10px; }
+      .hr{ height:1px; background: rgba(43,38,36,.10); margin: 12px 0; }
+      .pay-row{ display:flex; gap: 10px; margin-top: 12px; }
+      .pay-row input{ flex: 1; }
+    </style>
+  </head>
+
+  <body>
+    <header class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="./index.html#home" aria-label="Krystory Home">
+          <img src="assets/background.png" class="brand-logo" alt="Krystory logo" />
+          <span class="brand-name">Krystory</span>
+        </a>
+
+        <nav class="links" aria-label="Primary navigation">
+          <a href="./index.html#home">Home</a>
+          <a href="./index.html#about">About</a>
+          <a href="./crystals.html">Crystals</a>
+          <a href="./blog.html">Blog</a>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="icon-btn" type="button" aria-label="Cart">🛍️</button>
+          <button class="icon-btn" type="button" aria-label="Menu">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div class="page-head">
+          <h2>Checkout</h2>
+          <p class="muted">Demo checkout — enter shipping info to complete your order.</p>
+        </div>
+
+        <section class="checkout-wrap">
+          <!-- LEFT: form -->
+          <section class="checkout-card">
+            <div class="section-title">Contact</div>
+
+            <label class="field">
+              <span>Email</span>
+              <input id="email" type="email" placeholder="you@example.com" />
+            </label>
+
+            <div class="hr"></div>
+            <div class="section-title">Delivery</div>
+
+            <label class="field">
+              <span>Country/Region</span>
+              <select id="country">
+                <option>United States</option>
+                <option>China</option>
+              </select>
+            </label>
+
+            <div class="field-row">
+              <label class="field">
+                <span>First name</span>
+                <input id="firstName" placeholder="First name" />
+              </label>
+              <label class="field">
+                <span>Last name</span>
+                <input id="lastName" placeholder="Last name" />
+              </label>
+            </div>
+
+            <label class="field">
+              <span>Address</span>
+              <input id="address" placeholder="Address" />
+            </label>
+
+            <label class="field">
+              <span>Apartment, suite, etc. (optional)</span>
+              <input id="apt" placeholder="Apartment, suite, etc." />
+            </label>
+
+            <div class="field-row">
+              <label class="field">
+                <span>City</span>
+                <input id="city" placeholder="City" />
+              </label>
+              <label class="field">
+                <span>State / Province</span>
+                <input id="state" placeholder="State / Province" />
+              </label>
+            </div>
+
+            <label class="field">
+              <span>ZIP / Postcode</span>
+              <input id="zip" placeholder="ZIP / Postcode" />
+            </label>
+
+            <div class="hr"></div>
+            <div class="section-title">Payment</div>
+
+            <div class="pay-row">
+              <input placeholder="Discount code or gift card" />
+              <button class="btn ghost" type="button">Apply</button>
+            </div>
+
+            <button class="btn primary" id="payBtn" type="button" style="margin-top:14px;">
+              Pay now (demo)
+            </button>
+
+            <div class="note" id="payToast" aria-live="polite" style="margin-top:10px;"></div>
+          </section>
+
+          <!-- RIGHT: summary -->
+          <aside class="checkout-card">
+            <div class="section-title">Order summary</div>
+
+            <div class="summary-top" style="margin-top:10px;">
+              <img id="sumImg" class="summary-img" alt="Product image" />
+              <div style="flex:1;">
+                <div id="sumName" style="font-weight:800;">Crystal Bracelet</div>
+                <div class="muted small" id="sumMeta">6.75"</div>
+              </div>
+              <div id="sumPrice" style="font-weight:800;">$24.88</div>
+            </div>
+
+            <div class="hr"></div>
+
+            <div class="summary-line">
+              <div class="muted">Subtotal</div>
+              <div id="subTotal">$24.88</div>
+            </div>
+            <div class="summary-line">
+              <div class="muted">Shipping</div>
+              <div class="muted">Enter address</div>
+            </div>
+            <div class="hr"></div>
+            <div class="summary-line" style="font-weight:850;">
+              <div>Total</div>
+              <div id="total">$24.88</div>
+            </div>
+          </aside>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      // Read selection from URL params
+      const params = new URLSearchParams(location.search);
+      const name = params.get("name") || "Crystal Bracelet";
+      const img = params.get("img") || "assets/rose.png";
+      const price = params.get("price") || "24.88";
+
+      document.getElementById("sumName").textContent = name;
+      document.getElementById("sumImg").src = img;
+
+      const money = (v) => `$${Number(v).toFixed(2)}`;
+      document.getElementById("sumPrice").textContent = money(price);
+      document.getElementById("subTotal").textContent = money(price);
+      document.getElementById("total").textContent = money(price);
+
+      const toast = document.getElementById("payToast");
+      document.getElementById("payBtn").addEventListener("click", () => {
+        toast.textContent = "Payment completed ✅ (demo)";
+        setTimeout(() => (toast.textContent = ""), 2200);
+      });
+    </script>
+  </body>
+</html>

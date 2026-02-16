@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krystory | Astrology Chart</title>
+  <link rel="stylesheet" href="./styles.css" />
+
+  <style>
+    .result-grid{
+      display:grid;
+      grid-template-columns: 170px 1fr;
+      gap: 14px;
+      align-items: start;
+      margin-top: 12px;
+    }
+    @media (max-width: 560px){
+      .result-grid{ grid-template-columns: 1fr; }
+    }
+
+    .wheel-wrap{
+      border-radius: 16px;
+      border: 1px solid rgba(43,38,36,.10);
+      background: rgba(255,255,255,.65);
+      padding: 10px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+    }
+    .wheel-img{
+      width: 100%;
+      max-width: 160px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: 0 12px 28px rgba(43,38,36,.10);
+      display:block;
+    }
+
+    .kpi{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .pill{
+      border: 1px solid rgba(43,38,36,.12);
+      background: rgba(255,255,255,.75);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-weight: 850;
+      font-size: 12px;
+      color: rgba(43,38,36,.80);
+    }
+
+    .more-card{
+      margin-top: 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(43,38,36,.10);
+      background: rgba(255,255,255,.60);
+      padding: 14px;
+    }
+
+    .more-actions{
+      margin-top: 14px;
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="./index.html#home" aria-label="Krystory Home">
+        <img src="assets/background.png" class="brand-logo" alt="Krystory logo" />
+        <span class="brand-name">Krystory</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+
+      <div class="page-head">
+        <h2>Astrology Energy Analysis</h2>
+        <p class="muted">Understand your long-term energetic structure.</p>
+      </div>
+
+      <div class="card soft" style="max-width:520px;margin:auto">
+        <div class="section-title">Enter your birth date</div>
+
+        <label class="field">
+          <span>Birth date</span>
+          <input type="date" id="birthDate" />
+        </label>
+
+        <button class="btn primary" id="analyzeBtn" style="margin-top:14px;">
+          Analyze My Energy
+        </button>
+      </div>
+
+      <!-- RESULT -->
+      <div class="card soft" id="resultBox" style="max-width:520px;margin:20px auto; display:none;">
+        <div class="section-title">Your Energy Structure</div>
+
+        <div class="result-grid">
+          <!-- LEFT: wheel -->
+          <div class="wheel-wrap">
+            <img
+              id="wheelImg"
+              class="wheel-img"
+              src="assets/astrology-wheel.png"
+              alt="Astrology wheel"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- RIGHT: text -->
+          <div>
+            <div id="coreEnergy" style="font-weight:800;margin-top:4px;"></div>
+
+            <div class="kpi" id="kpiRow" aria-label="Energy keywords"></div>
+
+            <div id="crystalPair" class="muted" style="margin-top:10px;"></div>
+          </div>
+        </div>
+
+        <!-- More Interpretation -->
+        <div style="margin-top:16px;">
+          <div class="section-title">More Interpretation</div>
+
+          <div class="more-card">
+            <div class="muted" style="line-height:1.65;">
+              This is not fortune-telling. It’s a structured view of your long-term energy pattern:
+              how you recharge, where you over-spend energy, and what balance feels supportive.
+            </div>
+
+            <div class="kpi" style="margin-top:12px;">
+              <span class="pill">Core Self</span>
+              <span class="pill">Emotional Pattern</span>
+              <span class="pill">Energy Balance</span>
+              <span class="pill">Crystal Support</span>
+            </div>
+
+            <div style="margin-top:12px;">
+              <div style="font-weight:850;">What to watch</div>
+              <div class="muted" style="margin-top:6px; line-height:1.65;">
+                You may over-focus on one direction (mind / emotions / action). Gentle balance is the goal,
+                not “perfect alignment”.
+              </div>
+            </div>
+
+            <div class="more-actions">
+              <a class="btn ghost" href="./index.html#home">Back to Home</a>
+              <a class="btn primary" href="./tarot.html">Contact an Astrologer →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="astrology.js"></script>
+</body>
+</html>

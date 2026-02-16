@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krystory | Emotions & Energy</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .emo-wrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items:start;
+    }
+    @media (max-width: 900px){
+      .emo-wrap{ grid-template-columns: 1fr; }
+    }
+
+    .emo-card{
+      border-radius: 18px;
+      border: 1px solid rgba(43,38,36,.12);
+      background: rgba(255,255,255,.55);
+      box-shadow: var(--shadow, 0 12px 30px rgba(43,38,36,.08));
+      padding: 16px;
+    }
+
+    .emo-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media (max-width: 520px){
+      .emo-grid{ grid-template-columns: 1fr; }
+    }
+
+    .emo-btn{
+      border: 1px solid rgba(43,38,36,.12);
+      background: rgba(255,255,255,.65);
+      border-radius: 14px;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 850;
+      text-align: left;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .emo-btn:hover{ background: rgba(255,255,255,.85); }
+    .emo-btn.active{
+      outline: 2px solid rgba(43,38,36,.18);
+      background: rgba(43,38,36,.06);
+    }
+    .emo-chip{
+      font-size: 12px;
+      border: 1px solid rgba(43,38,36,.12);
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: rgba(255,255,255,.7);
+      white-space: nowrap;
+      font-weight: 800;
+      color: rgba(43,38,36,.75);
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    textarea{
+      min-height: 92px;
+      resize: vertical;
+      border-radius: 14px;
+      border: 1px solid rgba(43,38,36,.14);
+      padding: 12px;
+      background: rgba(255,255,255,.85);
+      outline:none;
+    }
+
+    .result-title{
+      font-weight: 900;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    .result-box{
+      border: 1px solid rgba(43,38,36,.10);
+      background: rgba(255,255,255,.55);
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 10px;
+    }
+    .pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .pill{
+      border: 1px solid rgba(43,38,36,.12);
+      background: rgba(255,255,255,.75);
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-weight: 850;
+      font-size: 12px;
+    }
+
+    .cta-row{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-top: 12px;
+      flex-wrap:wrap;
+    }
+
+    .note{
+      min-height: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="./index.html#home" aria-label="Krystory Home">
+        <img src="assets/background.png" class="brand-logo" alt="Krystory logo" />
+        <span class="brand-name">Krystory</span>
+      </a>
+
+      <nav class="links" aria-label="Primary navigation">
+        <a href="./index.html#home">Home</a>
+        <a href="./index.html#about">About</a>
+        <a href="./crystals.html">Crystals</a>
+        <a href="./blog.html">Blog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="page-head">
+        <h2>Emotions & Energy</h2>
+        <p class="muted">Not “who you are”. Just how you feel right now — and what supports you.</p>
+      </div>
+
+      <section class="emo-wrap">
+        <!-- LEFT: pick state -->
+        <section class="emo-card">
+          <div class="section-title">Choose your current state</div>
+
+          <div class="emo-grid" id="emoGrid">
+            <button class="emo-btn" type="button" data-key="anxious">
+              Anxious <span class="emo-chip">mental pressure</span>
+            </button>
+            <button class="emo-btn" type="button" data-key="overwhelmed">
+              Overwhelmed <span class="emo-chip">too much</span>
+            </button>
+            <button class="emo-btn" type="button" data-key="clarity">
+              Seeking Clarity <span class="emo-chip">foggy</span>
+            </button>
+            <button class="emo-btn" type="button" data-key="starting">
+              Starting Over <span class="emo-chip">new chapter</span>
+            </button>
+            <button class="emo-btn" type="button" data-key="heart">
+              Heart Healing <span class="emo-chip">softness</span>
+            </button>
+            <button class="emo-btn" type="button" data-key="lowmotivation">
+              Low Motivation <span class="emo-chip">low energy</span>
+            </button>
+            <button class="emo-btn" type="button" data-key="creative">
+              Creative Spark <span class="emo-chip">flow</span>
+            </button>
+            <button class="emo-btn" type="button" data-key="protection">
+              Need Protection <span class="emo-chip">boundaries</span>
+            </button>
+            <button class="emo-btn" type="button" data-key="stuck">
+              Feeling Stuck <span class="emo-chip">blocked</span>
+            </button>
+          </div>
+
+          <label class="field">
+            <span class="muted">Optional: describe in one sentence</span>
+            <textarea id="freeText" placeholder="e.g., I can’t stop thinking and I feel tense..."></textarea>
+          </label>
+
+          <div class="cta-row">
+            <button class="btn primary" id="analyzeBtn" type="button">Generate Recommendation</button>
+            <div class="note muted small" id="toast" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <!-- RIGHT: output -->
+        <aside class="emo-card">
+          <div class="section-title">Your gentle reading</div>
+
+          <div class="result-box" id="resultBox" style="display:none;">
+            <div class="result-title" id="resultTitle"></div>
+
+            <div class="muted" id="resultText"></div>
+
+            <div class="pill-row" id="pillRow"></div>
+
+            <div class="hr" style="height:1px;background:rgba(43,38,36,.10);margin:12px 0;"></div>
+
+            <div style="font-weight:900;">Suggested crystals</div>
+            <div class="pill-row" id="crystalRow"></div>
+
+            <div class="cta-row" style="margin-top:14px;">
+              <button class="btn primary" id="goCustomizeBtn" type="button">Customize Bracelet</button>
+              <button class="btn ghost" id="goCheckoutBtn" type="button">Checkout (demo)</button>
+            </div>
+          </div>
+
+          <div class="muted small" id="emptyHint">
+            Choose a state, then click “Generate Recommendation”.
+          </div>
+        </aside>
+      </section>
+    </div>
+  </main>
+
+  <script src="./emotions.js" defer></script>
+</body>
+</html>

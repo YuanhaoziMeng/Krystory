@@ -1,139 +1,189 @@
-const ring = document.getElementById("braceletRing");
-const toast = document.getElementById("finalToast");
+// customize.js — Final (NO beads) — Stable version
+// Click chip -> update big preview
+// Reset -> first chip
+// Finalize -> redirect to checkout.html with params
 
-const MAX_BEADS = 14;
+document.addEventListener("DOMContentLoaded", () => {
+  const STORAGE_KEY = "krystory_selected_crystal_v1";
+  const DEMO_PRICE = "24.88";
 
-const CRYSTALS = {
-  rose: { label: "Rose Quartz", tone: "soft" },
-  amethyst: { label: "Amethyst", tone: "warm" },
-  clear: { label: "Clear Quartz", tone: "clear" },
-  aquamarine: { label: "Aquamarine", tone: "clear" },
-  aventurine: { label: "Green Aventurine", tone: "green" },
-  citrine: { label: "Citrine", tone: "warm" }
-};
+  const previewImg = document.getElementById("previewImg");
+  const previewName = document.getElementById("previewName");
+  const toast = document.getElementById("finalToast");
 
-let beads = ["amethyst", "rose", "clear", "aventurine", "rose", "amethyst", "clear", "rose"];
-let activeTone = null;
+  const strip = document.getElementById("crystalStrip");
+  const resetBtn = document.getElementById("resetBtn");
+  const finalizeBtn = document.getElementById("finalizeBtn");
 
-function showToast(msg) {
-  if (!toast) return;
-  toast.textContent = msg;
-  window.clearTimeout(showToast._t);
-  showToast._t = window.setTimeout(() => (toast.textContent = ""), 2200);
-}
+  const chips = Array.from(document.querySelectorAll(".crystal-chip"));
 
-function beadClass(key) {
-  const tone = CRYSTALS[key]?.tone || "soft";
-  return `bead bead-${tone}`;
-}
-
-function render() {
-  if (!ring) return;
-  ring.innerHTML = "";
-
-  const count = beads.length;
-  const radius = 98;
-
-  beads.forEach((key, i) => {
-    const a = (i / count) * Math.PI * 2 - Math.PI / 2;
-    const x = Math.cos(a) * radius;
-    const y = Math.sin(a) * radius;
-
-    const el = document.createElement("button");
-    el.type = "button";
-    el.className = beadClass(key);
-    el.style.transform = `translate(${x}px, ${y}px)`;
-    el.title = `${CRYSTALS[key]?.label || key} (click to remove)`;
-    el.dataset.index = String(i);
-
-    el.addEventListener("click", () => {
-      const idx = Number(el.dataset.index);
-      if (Number.isFinite(idx)) {
-        beads.splice(idx, 1);
-        if (beads.length === 0) beads = ["clear"];
-        render();
-      }
-    });
-
-    ring.appendChild(el);
+  console.log("customize.js loaded ✅", {
+    hasPreviewImg: !!previewImg,
+    hasStrip: !!strip,
+    hasResetBtn: !!resetBtn,
+    hasFinalizeBtn: !!finalizeBtn,
+    chips: chips.length
   });
 
-  updateStripDisabledState();
-}
-
-function updateStripDisabledState() {
-  const chips = document.querySelectorAll(".crystal-chip");
-  chips.forEach((btn) => {
-    const key = btn.dataset.key;
-    const tone = CRYSTALS[key]?.tone;
-    const blocked = activeTone && tone !== activeTone;
-    btn.classList.toggle("is-dim", Boolean(blocked));
-    btn.disabled = Boolean(blocked);
-  });
-}
-
-function addBead(key) {
-  if (!CRYSTALS[key]) return;
-  if (beads.length >= MAX_BEADS) {
-    showToast(`Max ${MAX_BEADS} beads (demo). Remove one to add more.`);
-    return;
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    window.clearTimeout(showToast._t);
+    showToast._t = window.setTimeout(() => (toast.textContent = ""), 1800);
   }
-  beads.push(key);
-  render();
-}
 
-document.querySelectorAll(".crystal-chip").forEach((btn) => {
-  btn.addEventListener("click", () => addBead(btn.dataset.key));
-});
+  function persist(key) {
+    try {
+      localStorage.setItem(STORAGE_KEY, key);
+    } catch {}
+  }
+  function readPersisted() {
+    try {
+      return localStorage.getItem(STORAGE_KEY);
+    } catch {
+      return null;
+    }
+  }
+  function clearPersisted() {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {}
+  }
 
-document.getElementById("resetBtn")?.addEventListener("click", () => {
-  beads = ["amethyst", "rose", "clear", "aventurine", "rose", "amethyst", "clear", "rose"];
-  activeTone = null;
-  document.querySelectorAll(".swatch").forEach((s) => s.classList.remove("active"));
-  render();
-  showToast("Reset done.");
-});
+  function getImg(btn) {
+    const d = btn?.dataset?.img;
+    if (d) return d;
 
-document.getElementById("finalizeBtn")?.addEventListener("click", () => {
-  const summary = beads
-    .map((k) => CRYSTALS[k]?.label || k)
-    .reduce((acc, v) => {
-      acc[v] = (acc[v] || 0) + 1;
-      return acc;
-    }, {});
-  const lines = Object.entries(summary).map(([k, v]) => `${k} × ${v}`);
-  showToast(`Saved (demo): ${lines.join(" · ")}`);
-});
+    const imgEl = btn?.querySelector?.(".chip-img");
+    if (!imgEl) return null;
 
-document.getElementById("prevLook")?.addEventListener("click", () => {
-  beads = beads.slice(1).concat(beads[0]);
-  render();
-});
+    const bg = imgEl.style.backgroundImage || window.getComputedStyle(imgEl).backgroundImage;
+    const match = bg && bg.match(/url\(["']?(.*?)["']?\)/);
+    return match?.[1] || null;
+  }
 
-document.getElementById("nextLook")?.addEventListener("click", () => {
-  beads = [beads[beads.length - 1]].concat(beads.slice(0, beads.length - 1));
-  render();
-});
+  function getName(btn) {
+    return (
+      btn?.dataset?.name ||
+      btn?.querySelector?.(".chip-name")?.textContent?.trim() ||
+      "Crystal"
+    );
+  }
 
-document.querySelectorAll(".swatch").forEach((s) => {
-  s.addEventListener("click", () => {
-    const tone = s.dataset.tone || null;
+  function setActive(btn) {
+    chips.forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-pressed", "false");
+    });
+    btn.classList.add("active");
+    btn.setAttribute("aria-pressed", "true");
+  }
 
-    if (activeTone === tone) {
-      activeTone = null;
-      s.classList.remove("active");
-      document.querySelectorAll(".swatch").forEach((x) => x.classList.remove("active"));
-      render();
-      showToast("Color filter cleared.");
+  function updatePreview(imgSrc, name) {
+    if (previewName) previewName.textContent = name;
+
+    if (previewImg && imgSrc) {
+      previewImg.classList.remove("is-pop");
+      previewImg.src = imgSrc;
+      previewImg.alt = `Preview: ${name}`;
+      void previewImg.offsetWidth; // trigger reflow
+      previewImg.classList.add("is-pop");
+    }
+  }
+
+  function selectChip(btn, { silent = false, save = true } = {}) {
+    if (!btn) return;
+
+    const img = getImg(btn);
+    const name = getName(btn);
+
+    if (!img) {
+      if (!silent) showToast("Image not found for this crystal.");
       return;
     }
 
-    activeTone = tone;
-    document.querySelectorAll(".swatch").forEach((x) => x.classList.remove("active"));
-    s.classList.add("active");
-    updateStripDisabledState();
-    showToast(`Filtered: ${tone}`);
-  });
-});
+    setActive(btn);
+    updatePreview(img, name);
 
-render();
+    if (save) persist(btn.dataset.key || name);
+    if (!silent) showToast(`Selected: ${name}`);
+  }
+
+  // Preview image 404 fallback
+  previewImg?.addEventListener("error", () => {
+    const first = chips[0];
+    if (!first) return;
+    if (!first.classList.contains("active")) {
+      selectChip(first, { silent: true, save: true });
+      showToast("Preview image missing — fallback applied.");
+    }
+  });
+
+  // Keyboard/accessibility
+  chips.forEach((b) => {
+    if (!b.hasAttribute("tabindex")) b.tabIndex = 0;
+    if (!b.getAttribute("role")) b.setAttribute("role", "button");
+    if (!b.hasAttribute("aria-pressed")) b.setAttribute("aria-pressed", "false");
+  });
+
+  // Click chips (delegation)
+  strip?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".crystal-chip");
+    if (!btn) return;
+    selectChip(btn);
+  });
+
+  // Keyboard select
+  strip?.addEventListener("keydown", (e) => {
+    const btn = e.target.closest(".crystal-chip");
+    if (!btn) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      selectChip(btn);
+    }
+  });
+
+  // Reset
+  resetBtn?.addEventListener("click", () => {
+    const first = chips[0];
+    if (!first) return;
+    clearPersisted();
+    selectChip(first, { silent: true, save: false });
+    showToast("Reset done.");
+  });
+
+  // ✅ Finalize: redirect
+  if (!finalizeBtn) {
+    console.warn("❗ finalizeBtn not found. Check your HTML id='finalizeBtn'.");
+  } else {
+    finalizeBtn.addEventListener("click", () => {
+      console.log("FINALIZE CLICKED ✅");
+
+      const active = document.querySelector(".crystal-chip.active") || chips[0];
+      if (!active) {
+        showToast("No crystal selected.");
+        return;
+      }
+
+      const name = getName(active);
+      const img = getImg(active) || "assets/rose.png";
+
+      const url =
+        "./checkout.html" +
+        `?name=${encodeURIComponent(name + " Bracelet")}` +
+        `&img=${encodeURIComponent(img)}` +
+        `&price=${encodeURIComponent(DEMO_PRICE)}`;
+
+      console.log("Redirect to:", url);
+
+      // more reliable than assigning href in some edge cases
+      window.location.assign(url);
+    });
+  }
+
+  // On load: restore selection
+  const savedKey = readPersisted();
+  const savedChip = savedKey ? chips.find((c) => c.dataset.key === savedKey) : null;
+  const initial = savedChip || document.querySelector(".crystal-chip.active") || chips[0];
+  if (initial) selectChip(initial, { silent: true, save: true });
+});
